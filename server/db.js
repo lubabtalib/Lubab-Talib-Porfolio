@@ -6,7 +6,7 @@ const DB_PATH = path.join(__dirname, '..', 'portfolio.db');
 const DATABASE_URL = process.env.DATABASE_URL;
 
 let sqliteDb = null;
-let pgPool = null;
+let pgSql = null;
 let initialized = false;
 let initPromise = null;
 
@@ -15,7 +15,7 @@ function usePostgres() {
 }
 
 async function getDb() {
-  if (initialized) return usePostgres() ? pgPool : sqliteDb;
+  if (initialized) return usePostgres() ? pgSql : sqliteDb;
   if (initPromise) return initPromise;
 
   initPromise = initializeDb();
@@ -24,16 +24,8 @@ async function getDb() {
 
 async function initializeDb() {
   if (usePostgres()) {
-    const { Pool } = require('pg');
-    const sslRequired = process.env.PGSSLMODE === 'require'
-      || /sslmode=require/i.test(DATABASE_URL)
-      || process.env.NODE_ENV === 'production';
-
-    pgPool = new Pool({
-      connectionString: DATABASE_URL,
-      ssl: sslRequired ? { rejectUnauthorized: false } : undefined
-    });
-
+    const { neon } = require('@neondatabase/serverless');
+    pgSql = neon(DATABASE_URL);
     await createPostgresTables();
   } else {
     const SQL = await initSqlJs();
@@ -50,11 +42,11 @@ async function initializeDb() {
   }
 
   initialized = true;
-  return usePostgres() ? pgPool : sqliteDb;
+  return usePostgres() ? pgSql : sqliteDb;
 }
 
 async function createPostgresTables() {
-  await pgPool.query(`
+  await pgSql.query(`
     CREATE TABLE IF NOT EXISTS users (
       id SERIAL PRIMARY KEY,
       username TEXT UNIQUE NOT NULL,
@@ -63,7 +55,7 @@ async function createPostgresTables() {
     )
   `);
 
-  await pgPool.query(`
+  await pgSql.query(`
     CREATE TABLE IF NOT EXISTS content (
       id SERIAL PRIMARY KEY,
       section TEXT UNIQUE NOT NULL,
@@ -72,7 +64,7 @@ async function createPostgresTables() {
     )
   `);
 
-  await pgPool.query(`
+  await pgSql.query(`
     CREATE TABLE IF NOT EXISTS projects (
       id SERIAL PRIMARY KEY,
       title TEXT NOT NULL,
@@ -85,7 +77,7 @@ async function createPostgresTables() {
     )
   `);
 
-  await pgPool.query(`
+  await pgSql.query(`
     CREATE TABLE IF NOT EXISTS skills (
       id SERIAL PRIMARY KEY,
       category TEXT NOT NULL,
@@ -95,7 +87,7 @@ async function createPostgresTables() {
     )
   `);
 
-  await pgPool.query(`
+  await pgSql.query(`
     CREATE TABLE IF NOT EXISTS experience (
       id SERIAL PRIMARY KEY,
       title TEXT NOT NULL,
@@ -106,7 +98,7 @@ async function createPostgresTables() {
     )
   `);
 
-  await pgPool.query(`
+  await pgSql.query(`
     CREATE TABLE IF NOT EXISTS messages (
       id SERIAL PRIMARY KEY,
       name TEXT NOT NULL,
@@ -195,8 +187,7 @@ async function queryAll(sql, params = []) {
   await getDb();
 
   if (usePostgres()) {
-    const result = await pgPool.query(toPostgresSql(sql), params);
-    return result.rows;
+    return pgSql.query(toPostgresSql(sql), params);
   }
 
   const stmt = sqliteDb.prepare(sql);
@@ -218,8 +209,8 @@ async function runStmt(sql, params = []) {
   await getDb();
 
   if (usePostgres()) {
-    const result = await pgPool.query(toPostgresInsertSql(sql), params);
-    return { lastId: result.rows[0]?.id };
+    const rows = await pgSql.query(toPostgresInsertSql(sql), params);
+    return { lastId: rows[0]?.id };
   }
 
   sqliteDb.run(sql, params);
