@@ -1,6 +1,32 @@
 const express = require('express');
 const router = express.Router();
-const { queryAll, queryOne, runStmt } = require('../db');
+const { queryAll, queryOne, runStmt, usePostgres } = require('../db');
+
+// GET deployment/database health without exposing secrets
+router.get('/health', async (req, res) => {
+  const payload = {
+    ok: false,
+    database: usePostgres() ? 'postgres' : 'sqlite',
+    hasDatabaseUrl: Boolean(process.env.DATABASE_URL),
+    nodeEnv: process.env.NODE_ENV || 'development'
+  };
+
+  try {
+    const contentCount = await queryOne('SELECT COUNT(*) as count FROM content');
+    const messageCount = await queryOne('SELECT COUNT(*) as count FROM messages');
+    res.json({
+      ...payload,
+      ok: true,
+      contentCount: Number(contentCount?.count) || 0,
+      messageCount: Number(messageCount?.count) || 0
+    });
+  } catch (err) {
+    res.status(500).json({
+      ...payload,
+      error: err.message
+    });
+  }
+});
 
 // GET all content sections
 router.get('/content', async (req, res) => {
