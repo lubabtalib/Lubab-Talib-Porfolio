@@ -1,23 +1,17 @@
 {
   "version": 2,
-  "builds": [
-    {
-      "src": "server/index.js",
-      "use": "@vercel/node"
-    }
-  ],
   "functions": {
-    "server/index.js": {
+    "api/index.js": {
       "includeFiles": [
         "public/**",
         "admin/**"
       ]
     }
   },
-  "routes": [
+  "rewrites": [
     {
-      "src": "/(.*)",
-      "dest": "server/index.js"
+      "source": "/(.*)",
+      "destination": "/api/index.js"
     }
   ]
 }
