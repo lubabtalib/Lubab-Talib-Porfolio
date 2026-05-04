@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Lubab Talib — IT graduate with practical experience in WordPress website design, development, and content creation.">
+  <meta name="keywords" content="WordPress Developer, UI/UX Designer, SEO Expert, Web Developer, Portfolio, Lubab Talib, Erbil, Iraq">
+  <meta name="author" content="Lubab Talib">
+  <meta name="theme-color" content="#0a0a0f">
+  <title>Lubab Talib — Digital Solutions Architect</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/animations.css">
+</head>
+<body>
+  <!-- Loader -->
+  <div id="page-loader" class="page-loader">
+    <div class="loader-content">
+      <div class="loader-logo">L</div>
+      <div class="loader-bar"><div class="loader-bar-fill"></div></div>
+    </div>
+  </div>
+  <div class="site-background" aria-hidden="true">
+    <canvas id="particles-canvas"></canvas>
+  </div>
+
+
+  <!-- Navigation -->
+  <nav id="main-nav" class="nav">
+    <div class="nav-container">
+      <a href="#hero" class="nav-logo">
+        <span class="logo-bracket">&lt;</span>Lubab<span class="logo-bracket">/&gt;</span>
+      </a>
+      <div class="nav-links" id="nav-links">
+        <a href="#about" class="nav-link" data-section="about" data-i18n="nav_about">About</a>
+        <a href="#skills" class="nav-link" data-section="skills" data-i18n="nav_skills">Skills</a>
+        <a href="#content-strategy" class="nav-link" data-section="content-strategy" data-i18n="nav_content">Content</a>
+        <a href="#projects" class="nav-link" data-section="projects" data-i18n="nav_projects">Websites</a>
+        <a href="#experience" class="nav-link" data-section="experience" data-i18n="nav_experience">Experience</a>
+        <a href="#contact" class="nav-link" data-section="contact" data-i18n="nav_contact">Contact</a>
+      </div>
+      <div class="nav-controls">
+        <!-- Theme Toggle -->
+        <button class="control-btn" id="theme-toggle" aria-label="Toggle theme" title="Toggle Light/Dark Mode">
+          <svg class="icon-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+          <svg class="icon-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+        <!-- Language Toggle -->
+        <button class="control-btn lang-btn" id="lang-toggle" aria-label="Toggle language">
+          <span class="lang-label" id="lang-label">عربي</span>
+        </button>
+        <!-- Mobile Menu Toggle -->
+        <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section id="hero" class="hero">
+    <div class="hero-bg-orbs" id="hero-bg-orbs">
+      <div class="hero-blend-overlay"></div>
+    </div>
+    <div class="hero-content">
+      <div class="hero-badge animate-in">
+        <span class="badge-dot"></span>
+        <span data-i18n="hero_badge">Available for Projects</span>
+      </div>
+      <h1 class="hero-headline animate-in" id="hero-headline">
+        Building Smart, Scalable<br>Digital Experiences
+      </h1>
+      <p class="hero-subtext animate-in" id="hero-subtext">
+        IT graduate with practical experience in WordPress website design, development, and content creation. I focus on building clear, functional digital experiences while expanding my expertise in social media management, content planning, and digital marketing. My background in logistics operations adds a strong sense of organization, accuracy, and problem-solving to my work.
+      </p>
+      <div class="hero-cta animate-in">
+        <a href="#content-strategy" class="btn btn-primary" id="hero-cta-primary">
+          <span data-i18n="hero_cta_view">View My Work</span>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+        <a href="#contact" class="btn btn-secondary" id="hero-cta-secondary">
+          <span data-i18n="hero_cta_contact">Get In Touch</span>
+        </a>
+        <a href="/lubab.pdf" target="_blank" class="btn btn-secondary" id="hero-cta-cv">
+          <span data-i18n="hero_cta_cv">Download CV</span>
+        </a>
+      </div>
+      <div class="hero-stats animate-in">
+        <div class="stat">
+          <span class="stat-number" data-count="8">0</span><span class="stat-plus">+</span>
+          <span class="stat-label" data-i18n="stat_projects">Projects Delivered</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat">
+          <span class="stat-number" data-count="3">0</span>
+          <span class="stat-label" data-i18n="stat_years">Years Experience</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat">
+          <span class="stat-number" data-count="5">0</span><span class="stat-plus">+</span>
+          <span class="stat-label" data-i18n="stat_orgs">Organizations Served</span>
+        </div>
+      </div>
+    </div>
+    <div class="hero-scroll-indicator">
+      <div class="scroll-line"></div>
+      <span data-i18n="scroll">Scroll</span>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section id="about" class="section about">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag" data-i18n="tag_about">01 — Who I Am</span>
+        <h2 class="section-title section-title-giant" id="about-title" data-i18n="about_section_title">من نحن</h2>
+      </div>
+      <div class="about-grid">
+        <div class="about-text-col">
+          <div class="about-text" id="about-text">
+            <p>Loading...</p>
+          </div>
+          <div class="about-info">
+            <div class="about-info-item">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              <span id="personal-location">Erbil, Iraq</span>
+            </div>
+          </div>
+        </div>
+        <div class="about-highlights-col">
+          <div class="highlight-card glass-card" id="highlight-1">
+            <div class="highlight-icon">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+            </div>
+            <h3>WordPress Development</h3>
+          </div>
+          <div class="highlight-card glass-card" id="highlight-2">
+            <div class="highlight-icon">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+            </div>
+            <h3>UI/UX Design</h3>
+          </div>
+          <div class="highlight-card glass-card" id="highlight-3">
+            <div class="highlight-icon">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/><path d="M11 8v6M8 11h6"/></svg>
+            </div>
+            <h3>SEO & Content Writing</h3>
+          </div>
+          <div class="highlight-card glass-card" id="highlight-4">
+            <div class="highlight-icon">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+            </div>
+            <h3>Logistics & Systems Thinking</h3>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Skills Section (Tag-based, no percentages) -->
+  <section id="skills" class="section skills">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag" data-i18n="tag_skills">02 — What I Know</span>
+        <h2 class="section-title" data-i18n="skills_title">Technical Skills</h2>
+      </div>
+      <div class="skills-grid" id="skills-grid">
+        <!-- Filled dynamically -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Content Strategy Section -->
+  <section id="content-strategy" class="section content-strategy">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag" data-i18n="tag_content">03 — Content Thinking</span>
+        <h2 class="section-title" data-i18n="content_title">Content Strategy & Social Media</h2>
+        <p class="section-intro" data-i18n="content_intro">Planning work gets its own space here: calendars, platform thinking, copy direction, and review loops.</p>
+      </div>
+      <div id="content-showcase">
+        <!-- Filled dynamically -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Projects Section -->
+  <section id="projects" class="section projects">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag" data-i18n="tag_projects">04 — Website Content</span>
+        <h2 class="section-title" data-i18n="projects_title">Website Content Portfolio</h2>
+        <p class="section-intro" data-i18n="projects_intro">A focused collection of live websites where the page content, message structure, and visitor-facing copy were written by Lubab.</p>
+      </div>
+      <div class="projects-list" id="projects-list">
+        <!-- Filled dynamically -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Experience Section -->
+  <section id="experience" class="section experience">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag" data-i18n="tag_experience">05 — Where I've Been</span>
+        <h2 class="section-title" data-i18n="experience_title">Experience</h2>
+      </div>
+      <div class="timeline" id="timeline">
+        <!-- Filled dynamically -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Education Section -->
+  <section id="education" class="section education">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag" data-i18n="tag_education">06 — Education</span>
+        <h2 class="section-title" data-i18n="education_title">Education & Training</h2>
+      </div>
+      <div class="education-card glass-card animate-in">
+        <div class="edu-icon">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c0 0 3 3 6 3s6-3 6-3v-5"/></svg>
+        </div>
+        <div class="edu-content">
+          <h3 data-i18n="edu_degree">Bachelor of Science in Information Technology (B.Sc. IT)</h3>
+          <p class="edu-school">Lebanese French University — <span data-i18n="edu_location">Erbil, Iraq</span></p>
+          <p class="edu-period">2017 — 2021</p>
+        </div>
+      </div>
+      <div class="languages-section">
+        <h3 class="sub-title" data-i18n="languages_title">Languages</h3>
+        <div class="languages-grid">
+          <div class="lang-card glass-card animate-in">
+            <span class="lang-name" data-i18n="lang_arabic">Arabic</span>
+            <span class="lang-level" data-i18n="lang_native">Native</span>
+          </div>
+          <div class="lang-card glass-card animate-in">
+            <span class="lang-name" data-i18n="lang_english">English</span>
+            <span class="lang-level">B2 — C1</span>
+          </div>
+          <div class="lang-card glass-card animate-in">
+            <span class="lang-name" data-i18n="lang_kurdish">Kurdish</span>
+            <span class="lang-level">A2</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section id="contact" class="section contact">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag" data-i18n="tag_contact">07 — Say Hello</span>
+        <h2 class="section-title" id="contact-title" data-i18n="contact_title">Let's Work Together</h2>
+      </div>
+      <div class="contact-grid">
+        <div class="contact-info">
+          <p class="contact-text" id="contact-text">Loading...</p>
+          <div class="contact-details">
+            <div class="contact-detail">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+              <span>lubabbtalib@gmail.com</span>
+            </div>
+            <div class="contact-detail">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+              <span>(+964) 7737038154</span>
+            </div>
+            <div class="contact-detail">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              <span id="contact-location" data-i18n="location_available">Erbil, Iraq — Available Worldwide</span>
+            </div>
+          </div>
+        </div>
+        <form class="contact-form glass-card" id="contact-form">
+          <div class="form-group">
+            <label for="contact-name" data-i18n="form_name">Name</label>
+            <input type="text" id="contact-name" name="name" data-placeholder-i18n="form_name_ph" placeholder="Your full name" required>
+          </div>
+          <div class="form-group">
+            <label for="contact-email" data-i18n="form_email">Email</label>
+            <input type="email" id="contact-email" name="email" placeholder="your@email.com" required>
+          </div>
+          <div class="form-group">
+            <label for="contact-message" data-i18n="form_message">Message</label>
+            <textarea id="contact-message" name="message" data-placeholder-i18n="form_message_ph" placeholder="Tell me about your project..." rows="5" required></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary btn-full" id="contact-submit">
+            <span data-i18n="form_send">Send Message</span>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+          </button>
+          <div class="form-status" id="form-status"></div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer-container">
+      <div class="footer-logo">
+        <span class="logo-bracket">&lt;</span>Lubab<span class="logo-bracket">/&gt;</span>
+      </div>
+      <p class="footer-text" id="footer-text">© 2026 Lubab Talib. All rights reserved.</p>
+      <div class="footer-links">
+        <a href="#hero" class="footer-link" data-i18n="nav_home">Home</a>
+        <a href="#about" class="footer-link" data-i18n="nav_about">About</a>
+        <a href="#content-strategy" class="footer-link" data-i18n="nav_content">Content</a>
+        <a href="#projects" class="footer-link" data-i18n="nav_projects">Websites</a>
+        <a href="#contact" class="footer-link" data-i18n="nav_contact">Contact</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/js/portfolio.js"></script>
+</body>
+</html>
