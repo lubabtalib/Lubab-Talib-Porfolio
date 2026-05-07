@@ -263,27 +263,67 @@
 
   // ========== Load Portfolio Data ==========
   async function loadData() {
+    const [content, projects, skills, experience] = await Promise.all([
+      fetchJsonWithRetry('/api/content', {}),
+      fetchJsonWithRetry('/api/projects', []),
+      fetchJsonWithRetry('/api/skills', {}),
+      fetchJsonWithRetry('/api/experience', [])
+    ]);
+
+    portfolioData = { content, projects, skills, experience };
+
     try {
-      const [contentRes, projectsRes, skillsRes, expRes] = await Promise.all([
-        fetch(`${API}/api/content`),
-        fetch(`${API}/api/projects`),
-        fetch(`${API}/api/skills`),
-        fetch(`${API}/api/experience`)
-      ]);
-
-      portfolioData.content = await contentRes.json();
-      portfolioData.projects = await projectsRes.json();
-      portfolioData.skills = await skillsRes.json();
-      portfolioData.experience = await expRes.json();
-
       renderContent(portfolioData.content);
+    } catch (err) {
+      console.error('Failed to render content:', err);
+    }
+
+    try {
       renderContentStrategy(portfolioData.projects);
       renderProjects(portfolioData.projects);
+    } catch (err) {
+      console.error('Failed to render projects:', err);
+    }
+
+    try {
       renderSkills(portfolioData.skills);
+    } catch (err) {
+      console.error('Failed to render skills:', err);
+    }
+
+    try {
       renderExperience(portfolioData.experience);
     } catch (err) {
-      console.error('Failed to load data:', err);
+      console.error('Failed to render experience:', err);
     }
+  }
+
+  async function fetchJsonWithRetry(endpoint, fallback, options = {}, retries = 2) {
+    const url = `${API}${endpoint}`;
+    let lastError;
+
+    for (let attempt = 0; attempt <= retries; attempt += 1) {
+      try {
+        const res = await fetch(url, options);
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok) {
+          throw new Error(data.error || `Request failed with status ${res.status}`);
+        }
+        return data;
+      } catch (err) {
+        lastError = err;
+        if (attempt < retries) {
+          await delay(650 * (attempt + 1));
+        }
+      }
+    }
+
+    console.error(`Failed to load ${endpoint}:`, lastError);
+    return fallback;
+  }
+
+  function delay(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
   }
 
   // ========== Render Content ==========
@@ -915,12 +955,12 @@
 
     btn.disabled = true;
     try {
-      const res = await fetch(`${API}/api/contact`, {
+      const data = await fetchJsonWithRetry('/api/contact', { success: false }, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name, email, message })
-      });
-      const data = await res.json();
+      }, 1);
+
       if (data.success) {
         status.textContent = i18n[currentLang].form_success;
         status.className = 'form-status success';
