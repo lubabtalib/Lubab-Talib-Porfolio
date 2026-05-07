@@ -46,7 +46,7 @@ async function initializeDb() {
 }
 
 async function createPostgresTables() {
-  await pgSql.query(`
+  await postgresQuery(`
     CREATE TABLE IF NOT EXISTS users (
       id SERIAL PRIMARY KEY,
       username TEXT UNIQUE NOT NULL,
@@ -55,7 +55,7 @@ async function createPostgresTables() {
     )
   `);
 
-  await pgSql.query(`
+  await postgresQuery(`
     CREATE TABLE IF NOT EXISTS content (
       id SERIAL PRIMARY KEY,
       section TEXT UNIQUE NOT NULL,
@@ -64,7 +64,7 @@ async function createPostgresTables() {
     )
   `);
 
-  await pgSql.query(`
+  await postgresQuery(`
     CREATE TABLE IF NOT EXISTS projects (
       id SERIAL PRIMARY KEY,
       title TEXT NOT NULL,
@@ -77,7 +77,7 @@ async function createPostgresTables() {
     )
   `);
 
-  await pgSql.query(`
+  await postgresQuery(`
     CREATE TABLE IF NOT EXISTS skills (
       id SERIAL PRIMARY KEY,
       category TEXT NOT NULL,
@@ -87,7 +87,7 @@ async function createPostgresTables() {
     )
   `);
 
-  await pgSql.query(`
+  await postgresQuery(`
     CREATE TABLE IF NOT EXISTS experience (
       id SERIAL PRIMARY KEY,
       title TEXT NOT NULL,
@@ -98,7 +98,7 @@ async function createPostgresTables() {
     )
   `);
 
-  await pgSql.query(`
+  await postgresQuery(`
     CREATE TABLE IF NOT EXISTS messages (
       id SERIAL PRIMARY KEY,
       name TEXT NOT NULL,
@@ -187,7 +187,7 @@ async function queryAll(sql, params = []) {
   await getDb();
 
   if (usePostgres()) {
-    return pgSql.query(toPostgresSql(sql), params);
+    return postgresQuery(toPostgresSql(sql), params);
   }
 
   const stmt = sqliteDb.prepare(sql);
@@ -209,7 +209,7 @@ async function runStmt(sql, params = []) {
   await getDb();
 
   if (usePostgres()) {
-    const rows = await pgSql.query(toPostgresInsertSql(sql), params);
+    const rows = await postgresQuery(toPostgresInsertSql(sql), params);
     return { lastId: rows[0]?.id };
   }
 
@@ -237,6 +237,33 @@ function toPostgresInsertSql(sql) {
     return `${converted} RETURNING id`;
   }
   return converted;
+}
+
+async function postgresQuery(sql, params = [], retries = 2) {
+  let lastError;
+
+  for (let attempt = 0; attempt <= retries; attempt += 1) {
+    try {
+      return await pgSql.query(sql, params);
+    } catch (err) {
+      lastError = err;
+      if (!isTransientPostgresError(err) || attempt === retries) {
+        throw err;
+      }
+      await delay(450 * (attempt + 1));
+    }
+  }
+
+  throw lastError;
+}
+
+function isTransientPostgresError(err) {
+  const message = String(err?.message || '');
+  return /fetch failed|network|timeout|socket|ECONNRESET|ETIMEDOUT|ENOTFOUND/i.test(message);
+}
+
+function delay(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 module.exports = {
